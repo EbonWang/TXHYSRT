@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="腾讯会议字幕导出 —— 一键把腾讯会议实时字幕导出为 SRT / VTT / TXT / Markdown / JSON / CSV 的 Tampermonkey 油猴脚本。" />
+  <meta name="theme-color" content="#fbfbfd" />
+  <title>腾讯会议字幕导出 · 一键导出会议字幕</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230071e3'/%3E%3Cg fill='none' stroke='%23fff' stroke-width='2.2' stroke-linecap='round'%3E%3Cpath d='M7 10h18M7 16h12M7 22h8'/%3E%3C/g%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a class="nav-brand" href="#top">
+        <svg class="nav-logo" viewBox="0 0 32 32" aria-hidden="true">
+          <rect width="32" height="32" rx="7" fill="#0071e3"/>
+          <g fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round">
+            <path d="M7 10h18M7 16h12M7 22h8"/>
+          </g>
+        </svg>
+        <span>字幕导出</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="打开菜单" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#features">功能</a></li>
+        <li><a href="#install">安装</a></li>
+        <li><a href="#download">下载</a></li>
+        <li class="nav-cta"><a href="#download" class="btn btn-primary btn-small">免费下载</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main id="top">
+    <!-- Hero -->
+    <header class="hero">
+      <p class="hero-eyebrow">Tampermonkey · 油猴脚本 · v6.3</p>
+      <h1 class="hero-title">腾讯会议字幕导出</h1>
+      <p class="hero-sub">把腾讯会议的实时字幕，一键导出为 SRT、VTT、TXT、Markdown、JSON、CSV，<br class="hero-br" />留存每一次会议的重要瞬间。</p>
+      <div class="hero-actions">
+        <a href="download/腾讯会议字幕导出-V6-3.zip" download class="btn btn-primary btn-large">立即下载</a>
+        <a href="#install" class="btn btn-link">查看安装教程 <span class="arrow">›</span></a>
+      </div>
+      <p class="hero-note">免费 · 开源 · MIT 许可</p>
+    </header>
+
+    <!-- 产品介绍 -->
+    <section class="intro section" id="intro">
+      <div class="container">
+        <p class="section-eyebrow">产品介绍</p>
+        <h2 class="section-title">会议结束，字幕即刻到手。</h2>
+        <p class="section-lead">
+          腾讯会议网页版的字幕散落在滚动列表中，手动复制费时又容易遗漏。
+          字幕导出脚本会自动定位字幕容器、逐屏增量读取，再按你需要的格式一键生成文件，
+          支持预览、复制、说话人识别与偏好保存。
+        </p>
+      </div>
+    </section>
+
+    <!-- 核心功能 -->
+    <section class="features section" id="features">
+      <div class="container">
+        <p class="section-eyebrow">核心功能</p>
+        <h2 class="section-title">为效率而设计。</h2>
+        <div class="feature-grid">
+          <article class="card reveal">
+            <div class="card-icon">⧉</div>
+            <h3>增量读取</h3>
+            <p>逐屏滚动、去重收集，不遗漏任何一句字幕，稳定抓取全文。</p>
+          </article>
+          <article class="card reveal">
+            <div class="card-icon">↻</div>
+            <h3>自适应滚动</h3>
+            <p>读到新内容快速推进，空转时自动退避，防回滚守卫杜绝漏读。</p>
+          </article>
+          <article class="card reveal">
+            <div class="card-icon">⇩</div>
+            <h3>六种格式导出</h3>
+            <p>SRT / VTT / TXT / Markdown / JSON / CSV 一键切换，含时间轴与说话人。</p>
+          </article>
+          <article class="card reveal">
+            <div class="card-icon">👤</div>
+            <h3>说话人识别</h3>
+            <p>自动提取发言人昵称，在文本与字幕中标注每一句的归属。</p>
+          </article>
+          <article class="card reveal">
+            <div class="card-icon">◉</div>
+            <h3>预览与复制</h3>
+            <p>导出前先预览内容，一键复制到剪贴板，随取随用。</p>
+          </article>
+          <article class="card reveal">
+            <div class="card-icon">⌗</div>
+            <h3>可拖拽面板</h3>
+            <p>悬浮面板自由拖动、折叠、记住位置，深色模式自动适配。</p>
+          </article>
+          <article class="card reveal">
+            <div class="card-icon">⌘</div>
+            <h3>抗改版设计</h3>
+            <p>多级选择器自动匹配页面结构，前端改版也能快速适配。</p>
+          </article>
+          <article class="card reveal">
+            <div class="card-icon">✓</div>
+            <h3>偏好持久化</h3>
+            <p>设置自动保存，支持一键恢复默认，所见即所得。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 面板展示（深色） -->
+    <section class="spotlight" id="panel">
+      <div class="container">
+        <div class="spotlight-grid">
+          <div class="spotlight-text">
+            <h2 class="spotlight-title">一个悬浮面板，<br />装下全部能力。</h2>
+            <p class="spotlight-lead">
+              进入会议字幕页，脚本会自动注入一个可拖拽、可折叠的悬浮面板：
+              读取字幕、导出 SRT / TXT、更多格式、预览、复制、设置，一气呵成。
+            </p>
+            <ul class="spotlight-list">
+              <li>读取 · 停止 · 重新读取，三态合一</li>
+              <li>进度条实时显示读取百分比与条数</li>
+              <li>状态栏提示共读取条数与总时长</li>
+            </ul>
+          </div>
+          <div class="panel-mock reveal" aria-hidden="true">
+            <div class="mock-header"><span>字幕导出</span><span class="mock-toggle">−</span></div>
+            <div class="mock-body">
+              <span class="mock-btn">读取字幕</span>
+              <span class="mock-btn">导出 SRT</span>
+              <span class="mock-btn mock-alt">导出 TXT</span>
+              <span class="mock-select">更多格式… ▾</span>
+              <span class="mock-btn mock-ghost">预览</span>
+              <span class="mock-btn mock-ghost">复制到剪贴板</span>
+              <span class="mock-btn">设置</span>
+              <div class="mock-progress"><i style="width:72%"></i></div>
+              <span class="mock-status">共 1,284 条 · 时长 1:02:37</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 格式 -->
+    <section class="formats section" id="formats">
+      <div class="container">
+        <p class="section-eyebrow">多格式导出</p>
+        <h2 class="section-title">一种读取，六种交付。</h2>
+        <ul class="format-strip reveal">
+          <li><span class="fmt">SRT</span><em>字幕 · 标准时间轴</em></li>
+          <li><span class="fmt">VTT</span><em>WebVTT · 网页播放</em></li>
+          <li><span class="fmt">TXT</span><em>纯文本 · 逐句/分段</em></li>
+          <li><span class="fmt">MD</span><em>Markdown · 归档笔记</em></li>
+          <li><span class="fmt">JSON</span><em>结构化 · 二次开发</em></li>
+          <li><span class="fmt">CSV</span><em>表格 · Excel 直开</em></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 安装步骤 -->
+    <section class="install section" id="install">
+      <div class="container">
+        <p class="section-eyebrow">安装步骤</p>
+        <h2 class="section-title">三步，开始使用。</h2>
+        <ol class="steps">
+          <li class="step reveal">
+            <span class="step-num">1</span>
+            <div>
+              <h3>安装 Tampermonkey</h3>
+              <p>为 Chrome、Edge 或 Firefox 安装 <a href="https://www.tampermonkey.net/" target="_blank" rel="noopener">Tampermonkey</a> 浏览器扩展。</p>
+            </div>
+          </li>
+          <li class="step reveal">
+            <span class="step-num">2</span>
+            <div>
+              <h3>下载并安装脚本</h3>
+              <p>点击下方按钮下载 zip 并解压，打开其中的 <code>.js</code> 文件复制全部内容；在 Tampermonkey 中「新建脚本」，全选替换后保存（Ctrl / ⌘ + S）。</p>
+            </div>
+          </li>
+          <li class="step reveal">
+            <span class="step-num">3</span>
+            <div>
+              <h3>打开腾讯会议，开始导出</h3>
+              <p>进入腾讯会议网页版的会议纪要 / 字幕页面，悬浮面板会自动出现。点击「读取字幕」，完成后即可导出或复制。</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 下载 -->
+    <section class="download section" id="download">
+      <div class="container">
+        <h2 class="section-title">立即下载。</h2>
+        <p class="section-lead">脚本已打包为 zip，解压即用。免费、开源，MIT 许可。</p>
+        <div class="download-actions">
+          <a href="download/腾讯会议字幕导出-V6-3.zip" download class="btn btn-primary btn-large">下载 zip（v6.3）</a>
+          <a href="https://github.com/EbonWang/TXHYSRT" target="_blank" rel="noopener" class="btn btn-outline btn-large">查看源码</a>
+        </div>
+        <p class="download-meta">文件：腾讯会议字幕导出-V6-3.js · 约 12 KB</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p>腾讯会议字幕导出 · v6.3 · 基于 MIT 许可开源</p>
+      <p class="footer-sub">本项目与腾讯公司无关，仅为个人效率工具。</p>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
